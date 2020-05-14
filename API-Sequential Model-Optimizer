@@ -1,0 +1,46 @@
+import keras
+# data processing X , y 
+# 載入 iris data
+from sklearn import datasets
+import numpy as np
+iris = datasets.load_iris()
+X = iris['data'].astype(np.float32)      #X = iris.get('data')
+y = iris['target']                       #y = iris.get('target')
+y[-3:]
+
+# check X data type
+X.dtype
+
+from keras.utils import to_categorical
+y_oh = to_categorical(y)
+y_oh[:10]
+
+# 分出訓練 跟 驗證
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y_oh, test_size=0.2, random_state=42)
+
+# 建構神經層
+from keras.models import Sequential
+from keras.layers import Dense
+model = Sequential()        # https://keras.io/activations/
+model.add(Dense(units=1000, activation='relu', input_shape=(4,) ) )
+                            # softmax 用在最後一層輸出分類的時候計算最後屬於哪一個神經層
+model.add(Dense(units=3, activation='softmax'))
+model.summary()
+
+# categorical_crossentropy 表示分類正確 越小越好
+model.compile(optimizer='adam' , loss='categorical_crossentropy', metrics=['accuracy'] )
+history = model.fit(X_train, y_train, validation_split=0.2, batch_size=2, epochs=20, verbose=1)
+# loss , accuracy
+model.evaluate(X_test, y_test)
+#視覺化結果
+import matplotlib.pyplot as plt
+history.history.keys()
+%matplotlib inline
+plt.plot(history.history['loss'], color='red')
+plt.plot(history.history['val_loss'], color='blue')
+plt.show()
+%matplotlib inline
+plt.plot(history.history['acc'], color='red')
+plt.plot(history.history['val_acc'], color='blue')
+plt.show()

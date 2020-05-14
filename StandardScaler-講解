@@ -1,0 +1,44 @@
+from sklearn import datasets
+iris = datasets.load_iris()
+iris.keys()
+# dict_keys(['data', 'target', 'target_names', 'DESCR', 'feature_names', 'filename'])
+X = iris['data']
+y = iris['target']
+X[:3] , y[:3]
+
+# 標準化僅針對X處理 不處理y
+# z-score mu = 0 , std = 1 ,呈常態分布(normaldistribution)
+import numpy as np
+import pandas as pd
+df_iris = pd.DataFrame(X)
+df_iris.describe()
+
+#想換Dataframe欄位名稱
+df_iris.columes = ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
+df_iris
+
+# 進行z-score 處理
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaler = scaler.fit_transform(X)
+pd.DataFrame(X_scaler).describe()
+
+# split data
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# model predict target 
+# https://scikit-learn.org/stable/modules/multiclass.html
+# https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(X_train, y_train)
+model.score(X_train, y_train)
+
+# model predict target 
+# https://scikit-learn.org/stable/modules/multiclass.html
+# https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(X_train, y_train)
+model.score(X_train, y_train)

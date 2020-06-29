@@ -1,0 +1,36 @@
+# 拿高分的資料清除位置
+def rm_tags(text):
+    re_tag = r'<[^>]+>'
+    text = text.lower()
+    
+    # 連字
+    text = re.sub(re_tag, '', text)
+    text = re.sub(r"didn't","did not", text)
+    text = re.sub(r"haven't","have not", text)
+    text = re.sub(r"can't","can not", text)
+    text = re.sub(r"it's","it is", text)
+    text = re.sub(r"won't","will not", text)
+    text = re.sub(r"wouldn't","would not",text)
+    text = re.sub(r"what’s", "what is ", text)
+    text = re.sub(r"\'s", " ", text)
+    text = re.sub(r"\'ve", " have ", text)
+    text = re.sub(r"n't", " not ", text)
+    text = re.sub(r"i'm", "i am ", text)
+    text = re.sub(r"\'re", " are ", text)
+    text = re.sub(r"\'d", " would ", text)
+    text = re.sub(r"\'ll", " will ", text)
+    text = re.sub(r"\'scuse", " excuse ", text)
+    
+    # remove non-ascii characters
+    text = ''.join(character for character in text if ord(character) < 128)    
+    
+    # 請繼續加入    
+    text = re.sub(r"[&-/()),%']", ' ', text) #這特殊符號都去除
+    text = re.sub(r"\.", ' ', text) # 點換成一個空白
+    text = re.sub(r"\s+", ' ', text) #多空白換成一個空白
+    
+    text = ' '.join([c for c in text.split() if c not in stop])    
+    text = ' '.join([c for c in text.split() if not c.isdigit()])
+    text = ' '.join([c for c in text.split() if c not in punctuation])
+    
+    return text

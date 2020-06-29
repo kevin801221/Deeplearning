@@ -1,0 +1,6 @@
+# 找出文字出現的頻率
+from nltk import FreqDist
+sample = train.loc[0, 'doc_text_cleaned']
+plt.figure(figsize=(16,6) )
+FreqDistSend = FreqDist(list(sample.split()) )
+FreqDistSend.plot(80)

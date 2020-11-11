@@ -1,2 +1,2 @@
 # Deeplearning
-Learning by doing 
+Learning by do it 
